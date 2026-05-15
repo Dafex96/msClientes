@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cl.duoc.msClientes.dto.ClienteDTO;
 import cl.duoc.msClientes.model.Cliente;
 import cl.duoc.msClientes.repository.ClienteRepository;
 
@@ -49,5 +51,10 @@ public class ClienteService {
         }else{
             throw new RuntimeException("Cliente no encontrado");
         }
+    }
+
+    public ClienteDTO buscarClienteDTOPorId(Integer id){
+        Cliente cliente = buscarPorId(id);
+        return new ClienteDTO(cliente.getId(), cliente.getNombre());
     }
 }

@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import cl.duoc.msClientes.dto.ClienteDTO;
 import cl.duoc.msClientes.model.Cliente;
 import cl.duoc.msClientes.service.ClienteService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-
-
 
 @RestController
 @RequestMapping("/api/v1/clientes")
@@ -44,24 +43,33 @@ public class ClienteController {
         }
     }
 
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<ClienteDTO> obtenerClienteDTOPorId(@PathVariable Integer id){
+        try {
+            ClienteDTO clienteDTO = service.buscarClienteDTOPorId(id);
+            return ResponseEntity.ok(clienteDTO);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/rut/{rut}")
     public ResponseEntity<Cliente> obtenerPorRut(@PathVariable String rut){
         try {
-            Cliente cliente = service.buscarPorRut(rut);
-            return ResponseEntity.ok(cliente);
+            return ResponseEntity.ok(service.buscarPorRut(rut));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> guardar(@RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> guardarCliente(@RequestBody Cliente cliente){
         Cliente nuevoCliente = service.guardarCliente(cliente);
         return ResponseEntity.ok(nuevoCliente);
     }
 
-    @PutMapping("path/{id}")
-    public ResponseEntity<Cliente> actualizar(@PathVariable Integer id, @RequestBody Cliente cliente) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Integer id, @RequestBody Cliente cliente) {
         try {
             Cliente clienteActualizado = service.actualizarCliente(id, cliente);
             return ResponseEntity.ok(clienteActualizado);
@@ -71,7 +79,7 @@ public class ClienteController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminarCliente(@PathVariable Integer id) {
         try {
             service.eliminarCliente(id);
             return ResponseEntity.noContent().build();
