@@ -11,4 +11,7 @@ public class ClienteDTO {
 
     private Integer id;
     private String nombre;
+    private String correo;
+    private String telefono;
+
 }
