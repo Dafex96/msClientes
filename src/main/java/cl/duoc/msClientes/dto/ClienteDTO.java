@@ -11,5 +11,4 @@ public class ClienteDTO {
 
     private Integer id;
     private String nombre;
-    
 }
